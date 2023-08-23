@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello-app
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    cert-manager.io/issuer: "letsencrypt-staging"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - 34.141.56.110.nip.io
+    secretName: quickstart-example-tls
+  rules:
+  - host: "34.141.56.110.nip.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/algert"
+        backend:
+          service:
+            name: hello-app
+            port:
+              number: 8080
